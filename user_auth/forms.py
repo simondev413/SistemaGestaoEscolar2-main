@@ -138,7 +138,7 @@ class ProfessorRegistrationForm(forms.ModelForm):
                 prof =Professor.objects.get(email=self.cleaned_data['email'])
                 prof_disc = ProfessorDisciplina.objects.filter(professor=prof).first()
                 if not prof_disc:
-                    prof_disc = ProfessorDisciplina.objects.create(professor=user,disciplina=disciplina,turma=turma)
+                    prof_disc = ProfessorDisciplina.objects.create(professor=user,disciplina=disciplina,turma=user.turma)
                     prof_disc.save()                    
                 return user    
             return forms.ValidationError('Não há vagas para professores')

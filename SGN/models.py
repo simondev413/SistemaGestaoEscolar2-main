@@ -94,8 +94,14 @@ class FichaNota(models.Model):
     media = models.DecimalField(validators=[validar_nota],max_digits=5,decimal_places=2,verbose_name='Média',null=True,blank=True)
     status = models.CharField(max_length=20,choices = [('Aprovado','Aprovado'),('Reprovado','Reprovado'),('Recurso','Recurso'),('Dispensa','Dispensa'),('Exame', 'Exame')],default='Não avaliado')
     semestre = models.CharField(max_length=20,choices=[('1º Semestre','1º Semestre'),('2º Semestre','2º Semestre')],default='1º Semestre')
+
+    prova1_ajustada = models.BooleanField(default=False)
+    prova2_ajustada = models.BooleanField(default=False)
+    status_finalizado = models.BooleanField(default=False)
+
+  
     def __str__(self):
-      return self.estudante.nome + '  ' + self.estudante.sobrenome 
+      return f'{self.estudante.nome}  {self.estudante.sobrenome }'
     class Meta:
       unique_together = ['estudante','professor_disciplina']  
  

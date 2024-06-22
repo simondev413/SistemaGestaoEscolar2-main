@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from . import forms
 from logs import models as logs_models
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 
@@ -189,38 +190,62 @@ def avaliar_aluno(request,estudante_pk,disciplina_pk):
         if request.method == 'POST':
             if form.is_valid():               
                 form.save()
-
-                if ficha.prova1 is None:
-                    ficha.prova1 = 0
+                prova1 = ficha.prova1 if ficha.prova1 is not None else 0
+                prova2 = ficha.prova2 if ficha.prova2 is not None else 0
+                if  ficha.prova1_ajustada:
+                    ficha.avaliacao1 =0          
+                    ficha.avaliacao2 = 0               
+                    # Ajusta proif not ficha.prova1_ajustada and ficha.avaliacao1 is not None:
+                if ficha.avaliacao1 > prova1:
+                    prova1 = (prova1 + ficha.avaliacao1) / 2
+                ficha.prova1_ajustada = True
+        
+                # Ajusta prova2 com avaliacao2 se aplicável e se ainda não foi ajustada
+                if not ficha.prova2_ajustada and ficha.avaliacao2 is not None and prova2 > 0:
+                    if ficha.avaliacao2 > prova2:
+                        prova2 = (prova2 + ficha.avaliacao2) / 2
+                    ficha.prova2_ajustada = True
                     
-                ficha.media = (ficha.prova1 + ficha.prova2)/2 if ficha.prova2 is not None else (ficha.prova1/2)                                   
-                if ficha.media >= 13.5 :
-                    if ficha.media <= 13.9:
-                        ficha.media = 14
-                    ficha.status = 'Dispensa'
-                    ficha.exame = None
-                    ficha.recurso = None
-                elif 7 <= ficha.media < 13.5:
-                    ficha.status = 'Exame'                                   
-                elif ficha.media < 7:
-                        ficha.status = 'Recurso'
-                if ficha.exame is not None:
-                    ficha.media = (float(ficha.media)*0.4 + float(ficha.exame)*0.6)
-                    ficha.status = 'Aprovado' if ficha.media >= 10 else 'Recurso'
-                    if ficha.status == "Aprovado":
+                # Calcula a média das provas
+                media_provas = (prova1 + prova2) / 2 if prova2 > 0 else prova1/2
+                
+                # Determina o status baseado na média das provas, se o status não estiver finalizado
+                if not ficha.status_finalizado:
+                    if media_provas >= 13.5:
+                        if media_provas < 13.9:
+                            media_provas = 14.0  # Arredonda para 14
+                        ficha.status = 'Dispensa'
+                        ficha.exame = None
                         ficha.recurso = None
-                if ficha.status == "Recurso":
-                    if ficha.recurso is not None:
-                        ficha.media = ficha.recurso
-                        ficha.status = 'Aprovado' if ficha.recurso >= 10 else 'Reprovado'
-                    if ficha.prova2 is None:
-                        if ficha.prova1/2 < 7 :
-                            ficha.exame = None  
-                if ficha.prova2 is None:
-                    ficha.prova2 = 0  
-                if 9.5 <= ficha.media <= 9.5:
-                    ficha.media = 10
-                ficha.save()                                                                                    
+                        ficha.status_finalizado = True  # Finaliza o status
+                    elif 7 <= media_provas < 13.5:
+                        ficha.status = 'Exame'
+                    else:
+                        ficha.status = 'Recurso'
+
+                # Verifica se o exame foi realizado e o status não estiver finalizado
+                if ficha.exame is not None and not ficha.status_finalizado:
+                    media_final = (float(media_provas) * 0.4) + (float(ficha.exame) * 0.6)
+                    ficha.status = 'Aprovado' if media_final >= 10 else 'Recurso'
+                    ficha.media = media_final
+                    ficha.status_finalizado = ficha.status == 'Aprovado'  # Finaliza o status se aprovado
+                else:
+                    ficha.media = media_provas
+
+                # Verifica se o recurso foi realizado e o status não estiver finalizado
+                if ficha.recurso is not None and not ficha.status_finalizado:
+                    ficha.media = ficha.recurso
+                    ficha.status = 'Aprovado' if ficha.recurso >= 10 else 'Reprovado'
+                    ficha.status_finalizado = ficha.status == 'Aprovado'  # Finaliza o status se aprovado
+
+                # Salva o status e a média atualizada no banco de dados
+                if ficha.exame is not None:
+                    if ficha.media > 10:
+                        ficha.recurso = None 
+                ficha.save()
+
+
+                
                 return redirect('SGN:lancar_notas',estudante.turma.id,professor_disciplina.disciplina.id)
             else:
                 print(form.errors)  # Para depuração
