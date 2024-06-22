@@ -1,0 +1,108 @@
+{% extends 'SGN/index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+    <div class="card-group" style="justify-content: center;align-items: center;">
+        <div class="card-perfil" 
+        style="
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff; 
+        width: 96%;
+        height: 80%;
+        border-radius: 3px;
+        color: var(--bs-dark);"
+        
+        >
+            <div class="personal-data" style="display: flex;flex-direction: column;margin: 10px 20px;gap: 10px;font-weight: 500;">
+                <span style="display: block;">Nome: {{estudante.nome}} {{estudante.sobrenome}}</span>
+                <span style="display: block;">Estudante Nº: {{estudante.id}}</span>
+                <span style="display: block;">Curso: {{estudante.curso}}</span>
+                <span style="display: block;">Turma: {{estudante.turma}}</span>
+                                
+            </div>
+            <div class="img-profile"
+            style="width: 130px;
+            height: 130px;
+            border: 1px solid #242424;
+            border-radius: 5%;
+            margin: 10px 20px;">
+
+                {% if estudante.img %}
+                    <img src="{{ estudante.img.url }}" alt="estuantes.png" style="width: 130px;height: 130px;">
+                {% else %}
+                    <img src="#" alt="estuantes.png">
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+    <div class="table-area">
+        <div class="table-header">
+            <span> Ficha de Notas </span> 
+            <div class="search" style="margin-right: 100px;">
+                <form action="?" method="get" >                                   
+                    <select name="semestre" id="filtro"  class="forms-field" value="{{ request.GET.semestre }}" style=
+                    "border-style: none;
+                    margin-top: 8px ;
+                    ">                                                                                               
+                        <option >
+                            {% if request.GET.semestre %}
+                                {{ request.GET.semestre }}
+                            {% else %}
+                                Semestre
+                            {% endif  %}
+                        </option>                      
+                        <option value="1º Semestre">1º Semestre</option>                      
+                        <option value="2º Semestre">2º Semestre</option>                      
+                      </select>
+                    </select>
+                    <button type="submit" class="btn" id="btn-search" style="margin-bottom: 5px;"> Buscar</button>
+                    <a href="{% url 'SGN:estudante_perfil' estudante.id %}" class="btn" id="btn-back" style="margin-bottom: 5px;">Voltar</a>
+                </form>
+            </div>  
+
+        </div>
+        <div id="table-div">
+            <table>
+                <thead>
+                    <tr> 
+                        <th>Disciplina</th>                   
+                        <th>Prova 1</th>
+                        <th>Avaliação 1</th>
+                        <th>Prova 2</th>
+                        <th>Avaliação 2</th>
+                        <th>Exame</th>
+                        <th>Recurso</th>
+                        <th>Media</th>
+                        <th>Status</th> 
+                        <th>Ações</th>                    
+                    </tr>
+                </thead>
+                <tbody>                
+                    {% for ficha in fichas %}
+                    <tr>
+                        <td> {{ficha.professor_disciplina.disciplina.nome}} </td>
+                        <td class="ficha-values"> {{ficha.prova1}} </td>
+                        <td class="ficha-values"> {{ficha.avaliacao1}} </td>
+                        <td class="ficha-values"> {{ficha.prova2}} </td>
+                        <td class="ficha-values"> {{ficha.avaliacao2}} </td>
+                        <td class="ficha-values"> {{ficha.exame}} </td>
+                        <td class="ficha-values"> {{ficha.recurso}} </td>
+                        <td class="ficha-values"> {{ficha.media}} </td>
+                        <td class="ficha-status"> {{ficha.status}} </td>
+                        <td>
+                            <div id="btn-actions">
+                                <a href="#" onclick="alert('Está Funcionalidade ainda está em desenvolvimento.')" id="btn-edit" class="btn"> Editar</a>
+                                <!-- <a href="" id="btn-del" class="btn"> Eliminar</a> -->
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock main %}

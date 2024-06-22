@@ -1,0 +1,65 @@
+{% extends 'SGN/index.html'  %}
+
+{% block  main %}
+
+<div class="card-group" >
+    <div class="card-item card-dark card-one">
+        <span><strong>Total de Turmas Registradas</strong></span>
+        <p id="card-item-counter">{{ turmas.count }}</p>
+    </div>
+</div>
+
+<div class="table-area" >
+    <div class="table-header">
+        <span> Turmas </span>
+        <div class="search">
+            <form action="?" method="get">               
+                <input type="text" name="filtro_turma" id="filtro" value="{{ request.GET.filtro_turma }}"  placeholder="Buscar turma">
+                <button type="submit" class="btn" id="btn-search"> Buscar</button>
+                <a href="{% url 'SGN:admin_turmas_dashboard' %}" class="btn" id="btn-back">Voltar</a>
+            </form>
+        </div>  
+        <div>
+            <a href="{% url 'SGN:registrar_turma' %}" class="nav-link  btn btn-header"> Registar Turma</a>                  
+        </div>
+    </div>
+    <div id="table-div">
+        <table>
+            <thead>
+                <tr> 
+                    <th>ID</th>                   
+                    <th>Nome</th>
+                    <th>Curso</th>
+                    <th>Turno</th>
+                    <th>Ano Acadêmico</th>
+                    <th>Sala</th>
+                    <th>Total Estudantes</th>                  
+                    <th>Limite Estudantes</th>                  
+                    <th>Ações</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for turma in turmas %}
+                <tr>
+                    <td>{{ turma.id }}</td>
+                    <td>{{ turma.nome }}</td>
+                    <td>{{ turma.curso }}</td>
+                    <td>{{ turma.turno }}</td>
+                    <td>{{ turma.ano_academico }}</td>
+                    <td>{{ turma.sala }}</td>                                                                                                  
+                    <td>{{ turma.total_estudantes }}</td>                                                                                                  
+                    <td>{{ turma.limite}}</td>                                                                                                  
+                    <td>
+                        <div id="btn-actions">
+                            <a href="{% url 'SGN:editar_turma' turma.id %}" id="btn-edit" class="btn"> Editar</a>
+                            <a href="{% url 'SGN:deletar_turma' turma.id %}" onclick="return confirm('Deseja excluir o Turma: {{ turma.nome }}?')" id="btn-del" class="btn"> Eliminar</a>
+                        </div>
+                    </td>                  
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock main %}

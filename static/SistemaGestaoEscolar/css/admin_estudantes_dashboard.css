@@ -1,0 +1,47 @@
+#dashboard-student{
+    padding: 10px;
+    color: black;  
+}
+.card{
+    color: #f4f4f4;
+    padding: 10px;
+    height: 90px;
+    width: 360px;
+    border-radius: 3px;
+}
+
+.card h4{
+    margin-top: 0px !important;
+}
+
+.card:first-child{
+    background-color: #242424;
+}
+.card:last-child{
+    background-color: #242424;
+}
+
+th{
+    text-align: left;
+    padding: 0px 15px 0px 15px;
+    position: sticky;
+    top: 0 auto;
+}
+td{
+    
+    padding: 3px 5px 3px 5px;
+}
+
+#table-area{
+    height: 320px !important;
+}
+
+
+#table-actions{
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+    align-items: center;
+    padding: 10px 2px;
+}

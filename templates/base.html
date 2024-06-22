@@ -1,0 +1,29 @@
+{% load static %}
+
+{%  load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sistema de GestãoEscolar </title>
+    
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/dashboard/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/dashboard/dashboard.rtl.css' %}">
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/all.min.css' %}">
+  
+</head>
+<body >
+
+   {% block content %}
+
+   {% endblock content %}
+
+    <script src="{% static 'SistemaGestaoEscolar/js/bootstrap.min.js'  %}"></script>
+    <script src="{% static 'SistemaGestaoEscolar/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'SistemaGestaoEscolar/dashboard/dashboard.js' %}"></script>
+</body>
+</html>

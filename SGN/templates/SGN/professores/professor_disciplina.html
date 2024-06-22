@@ -1,0 +1,44 @@
+{% extends 'SGN/index.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="register-area">
+    <h5 style="margin: 0;" id="form-title" class="navbar-header">
+        <span>Atribuir  Disciplina </span>
+    </h5>
+    <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="curso-registration-form" style="height: 300px;">            
+                            
+            {{ form.disciplina }}            
+            {{ form.turma }}  
+            <br>                      
+            <div class="buttons">
+                <button type="submit"  class="register-btn btn" >Atribuir</button>
+                <a href="{% url 'SGN:admin_professor_perfil' professor.id %}" class="btn-back btn">Voltar</a>
+            </div>
+        </div>
+       
+
+    </form>
+    {% if form.errors %}
+        <div class="form-errors">
+            <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                        <li>{{ field.label }}: {{ field.errors }}</li>
+                    {% endif %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+
+
+{% endblock main %}
+

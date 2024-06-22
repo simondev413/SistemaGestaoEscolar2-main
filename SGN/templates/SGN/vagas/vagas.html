@@ -1,0 +1,15 @@
+{% extends 'SGN/index.html' %}
+
+{% block main  %}
+<div class="card-group">
+    {% for vaga in vagas %}
+        <div class="card-item card-three">
+            <a href="{% url 'SGN:set_vagas' vaga.id %}">
+                <span> <strong>Vagas para {{ vaga.tipo }}</strong></span>
+                <span><strong>Ano Letivo: {{ vaga.ano_academico }}</strong></span>            
+                <span ><strong >Total: {{ vaga.total }}</strong></span>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock main  %}

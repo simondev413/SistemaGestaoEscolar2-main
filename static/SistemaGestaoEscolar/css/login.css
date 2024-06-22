@@ -1,0 +1,104 @@
+body{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #dddddd;
+    font-family: 'Segoe UI', sans-serif;
+}
+.main-container{
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content:baseline;
+    align-items: center;
+    width: 800px;
+    margin-top: 80px;
+    height: 500px;
+    border-radius: 40px;
+}
+
+.left-box {
+    height: 500px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    background-color: #242424;
+    color: #f4f4f4;
+    flex-direction: column;
+    line-height: 15px;
+}
+
+#p-left-box {
+    max-width: 200px;
+    text-align:left;
+    font-size: 14px;
+}
+.h-text-left-box{
+    display: flex;
+    flex-direction: column;
+    line-height: 0.1px;
+    align-items:start;
+}
+
+#login-cancel{
+    text-decoration: none;
+    color: #242424;
+    border-style: solid;
+    border-width: 0.5px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+#login-cancel:hover{
+    background-color: #242424;
+    color: #f4f4f4;
+    transition: 0.3s all;
+}
+
+.right-box {
+
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#f4f4f4;
+    border-radius: 40px;
+    width: 500px;
+    flex-direction: column;
+    
+}
+
+.form-area{
+    width: 70%;  
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input{
+    border-radius: 10px;
+    border-style:solid;
+    border-width: 0.5px;
+    padding: 15px;
+}
+
+input[type='submit'] {
+    background-color: #0d6efd;
+    color: #f4f4f4;
+    border-style: none;
+}
+
+#senha-reset{
+    align-self:flex-end;
+    text-decoration:underline;
+    color: #0d6efd;
+    font-weight: bold;
+}
+

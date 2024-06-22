@@ -1,0 +1,73 @@
+{% extends 'SGN/index.html'  %}
+
+{% block  main %}
+
+<div class="card-group" >
+    <div class="card-item card-dark card-two">
+        <span><strong>Total Professores Registrados</strong></span>
+        <p id="card-item-counter">{{ professores.count }}</p>
+    </div> 
+    <div class="card-item card-dark card-two">
+        <span><strong>Vagas Disponiveis</strong></span>
+        <p id="card-item-counter">{{ vagas }}</p>
+    </div> 
+</div>
+
+<div class="table-area" >
+    <div class="table-header">
+        <span> Professores </span>
+        <div class="search">
+            <form action="?" method="get">               
+                <input type="text" name="nome_professor" id="filtro" value="{{ request.GET.nome_professor }}"  placeholder="Buscar professor">
+                <button type="submit" class="btn" id="btn-search"> Buscar</button>
+                <a href="{% url 'SGN:admin_professores_dashboard' %}" class="btn" id="btn-back">Voltar</a>
+            </form>
+        </div>  
+        <div>
+            <a href="{% url 'user_auth:registar_professor' %}" class="nav-link  btn btn-header"> Registar professor</a>                  
+        </div>
+    </div>
+    <div id="table-div">
+        <table>
+            <thead>
+                <tr> 
+                    <th>ID</th>                   
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Email</th>
+                    <th>Telefone</th>
+                    <th>Curso</th>                
+                    <th>Turma</th>
+                    <th>Disciplina</th>
+                    <th>Sexo</th>
+                    <th>Endereco</th> 
+                    <th>Ações</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for instance in prof_disc%}                 
+                    <tr>
+                        <td><a href="{% url 'SGN:admin_professor_perfil' instance.professor.id %}" style="color:#242424;"  class="table-link">{{ instance.professor.id }}</a></td>
+                        <td><a href="{% url 'SGN:admin_professor_perfil' instance.professor.id %}" style="color:#242424;"  class="table-link">{{ instance.professor.nome }}</a></td>
+                        <td><a href="{% url 'SGN:admin_professor_perfil' instance.professor.id %}" style="color:#242424;"  class="table-link">{{ instance.professor.sobrenome }}</a></td>
+                        <td><a href="{% url 'SGN:admin_professor_perfil' instance.professor.id %}" style="color:#242424;"  class="table-link">{{ instance.professor.email }}</a></td>
+                        <td>{{ instance.professor.telefone }} / {{ professor.telefone2 }}</td>
+                        <td>{{ instance.turma.curso }}</td>                                                                              
+                        <td>{{ instance.turma.nome }}</td>
+                        <td>{{ instance.disciplina.nome }}</td>
+                        <td>{{ instance.professor.sexo }}</td>
+                        <td>{{ instance.professor.endereco }}</td>  
+                        <td>
+                            <div id="btn-actions">
+                                <a href="{% url 'user_auth:editar_professor' instance.professor.id %}" id="btn-edit" class="btn"> Editar</a>
+                                <a href="{% url 'user_auth:deletar_professor' instance.professor.id %}" onclick="return confirm('Deseja excluir o professor: {{ instance.professor.nome }} {{instance.professor.sobrenome}}?')" id="btn-del" class="btn"> Eliminar</a>
+                            </div>
+                        </td>                  
+                    </tr>                                   
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock main %}

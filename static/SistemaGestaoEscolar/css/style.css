@@ -1,0 +1,89 @@
+body {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    /* background-color: #fafafa; */
+    color: #242424;
+    justify-content: center;
+    align-items: center;
+    font-family:Segoe UI;
+    
+}
+
+header{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h3{
+    font-size: 24px;
+}
+
+li{
+    display: inline-block;
+    margin-inline-start: 40px;
+}
+
+main{
+    display: flex; 
+    flex-direction: column;
+    margin-top: 60px;
+}
+
+a {
+    text-decoration: none;
+    color:#242424;
+    border-radius: 3px;
+}
+
+#login-redirect-btn{
+    background-color: #242424;
+    color: #fafafa;
+    padding: 15px;
+}
+
+article{
+    display:flex ;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+}
+
+p{
+    max-width: 600px;
+}
+
+#welcome-text{
+    font-size: 28px;
+    font-weight: 200px;
+    line-height: 10px;
+}
+
+#sobre-btn{
+    border-style: solid;
+    border-color: #242424;
+    border-width: 2px;
+    padding: 15px;
+    padding-inline:25px ;
+}
+#sobre-btn:hover{
+    background-color: #242424;
+    color: #fafafa;
+    
+
+}
+
+#admin-back-btn{
+    border-style: solid;
+    border-radius: 3px;
+    border-width: 0.5px; 
+    padding: 10px;
+}
+#admin-back-btn:hover{
+    background-color: #242424;
+    color: #fafafa;
+    transition: 0.3s all;
+}

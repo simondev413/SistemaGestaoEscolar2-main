@@ -1,0 +1,63 @@
+{% load static %}
+
+{%  load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sistema de GestãoEscolar </title>
+  
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/all.min.css' %}">
+
+   
+  
+</head>
+<body >
+
+    {% block content %}
+    <header>
+    <div class="brand-text">
+        <h3>Sistema De Gestão Escolar</h3>
+    </div>
+    <ul>
+        <li> <a href="#"  id="sobre-btn"> Sobre</a> </li>    
+        {% if request.user.is_authenticated %}
+
+        {% else %}
+        <li> <a href="{% url 'user_auth:login' %}" class="btn"id="login-redirect-btn"> Fazer Login </a> </li>
+        {% endif %}
+        
+    </ul>
+   </header>
+   
+   <main>
+    <article>
+        
+        <div id="welcome-text" >
+            <h2>Bem-vindo</h2>
+            <h2>Sistema de Gestão Escolar</h2>
+        </div>
+        <p>O <strong>Sistema de Gestão Escolar</strong> é uma plataforma integrada e inovadora projetada para facilitar e otimizar a administração escolar. Nossa solução tecnológica abrange todas as necessidades de uma instituição de ensino, permitindo uma gestão eficiente e centralizada de alunos, professores, cursos, atividades e muito mais.</p>
+        {% if request.user.is_authenticated %}
+            {% if request.user.type == 'admin' %}
+            <a href="{% url 'SGN:admin_dashboard' %}" id="admin-back-btn" > Ir para área administrativa </a>
+            {% elif request.user.type == 'estudante' %}
+            <a href="{% url 'SGN:ver_fichas' %}" id="admin-back-btn" > Ver Perfil </a>
+            {% elif request.user.type == 'professor' %}
+            <a href="{% url 'SGN:professor_perfil' %}" id="admin-back-btn" > Ver Perfil </a>
+            {% endif %}
+        {%  else %}
+        <a href="{% url 'user_auth:login' %}" class="btn" id="login-redirect-btn">Fazer Login</a>
+        {% endif %}
+    </article>
+   </main>
+
+
+   {% endblock content %}
+
+   
+</body>
+</html>

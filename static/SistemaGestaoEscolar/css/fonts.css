@@ -1,0 +1,31 @@
+@font-face {
+    font-family: 'brands400';
+    src: url('../fonts/fa-brands-400.ttf') format('ttf');
+    src: url('../fonts/fa-brands-400.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'regular400';
+    src: url('../fonts/fa-regular-400.ttf') format('ttf');
+    src: url('../fonts/fa-regular-400.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'solid400';
+    src: url('../fonts/fa-solid-900.ttf') format('ttf');
+    src: url('../fonts/fa-solid-900.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'v4compatibility';
+    src: url('../fonts/fa-v4compatibility.ttf') format('ttf');
+    src: url('../fonts/fa-v4compatibility.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}

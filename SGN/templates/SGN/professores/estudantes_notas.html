@@ -1,0 +1,123 @@
+{% extends 'SGN/index.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block style %}
+    <style>
+        .main{
+            width: 100%;
+        }
+        #table-div{
+            width:100%;
+        }
+        .forms-field{
+            width:100px !important ;
+        }
+        label{
+            margin-left: 20px;
+        }
+        .btn{
+            height: 40px !important;
+
+        }
+    </style>
+{% endblock style %}
+
+
+
+{% block sidebar  %}
+
+{% endblock sidebar  %}
+
+{% block main %}
+
+    <div class="card-group" style="justify-content: center;align-items: center;">
+            <div class="card-perfil" 
+            style="
+            display: flex;
+            justify-content: space-between;
+            background-color: #fff; 
+            width: 96%;
+            height: 80%;
+            border-radius: 3px;
+            color: var(--bs-dark);"
+            
+            >
+                <div class="personal-data" style="display: flex;flex-direction: column;margin: 10px 20px;gap: 10px;font-weight: 500;">
+                    <span style="display: block;">Nome: {{estudante.nome}} {{estudante.sobrenome}}</span>
+                    <span style="display: block;">Estudante Nº: {{estudante.id}}</span>
+                    <span style="display: block;">Curso: {{estudante.curso}}</span>
+                    <span style="display: block;">Turma: {{estudante.turma}}</span>
+                                    
+                </div>
+                <div class="img-profile"
+                style="width: 130px;
+                height: 130px;
+                border: 1px solid #242424;
+                border-radius: 5%;
+                margin: 10px 20px;">
+
+                    {% if estudante.img %}
+                        <img src="{{ estudante.img.url }}" alt="estuantes.png" style="width: 130px;height: 130px;">
+                    {% else %}
+                        <img src="#" alt="estuantes.png">
+                    {% endif %}
+                </div>
+                
+        </div>
+    </div>
+
+
+<div class="register-area" style="width: 100%;justify-content: start;height: 400px;">
+    <h5 style="margin: 0;width:60%;height: 40px;" id="form-title" class="navbar-header" >
+        <span>Lançar nota</span>
+    </h5>
+    <form  method="post" enctype="multipart/form-data" style="width:60%">
+        {% csrf_token %}
+        <div class="turma-registration-form" style="width:100%;height: 200px;flex-direction: row;justify-content: space-between;">
+            <div style="display: flex;width: 90%;">
+                <div class="p1" style="display: flex;width: 25%;flex-direction: column">
+                    <label for="prova1"> P1:</label>
+                        {{form.prova1}}
+                    <label for="avaliacao1"> Av1:</label>
+                        {{form.avaliacao1}}
+                </div>
+                <div class="p2" style="display: flex;flex-direction: column;width: 25%;">
+                    <label for="prova2"> P2:</label>
+                        {{form.prova2}}
+                    <label for="avaliacao2"> Av2:</label>
+                    {{form.avaliacao2}}
+                </div>
+                <div class="especial" style="display: flex;width: 25%;flex-direction: column">
+                    <label for="exame"> Exame:</label>
+                    {{form.exame}}
+                    <label for="recurso"> Recurso:</label>
+                        {{form.recurso}}
+                </div>
+            </div>
+            <div class="buttons" style="width:10%;position: relative;top: 60%;">
+                <button type="submit"  class="register-btn btn" >Lançar</button>
+                <a href="{% url 'SGN:lancar_notas' estudante.turma.id disciplina.id %}" id="btn-edit" class="btn"> Voltar</a>
+            </div>
+        </div>       
+    </form>
+    {% if form.errors %}
+        <div class="form-errors">
+            <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                        <li>{{ field.label }}: {{ field.errors }}</li>
+                    {% endif %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+
+
+{% endblock main %}

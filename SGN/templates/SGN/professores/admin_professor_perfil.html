@@ -1,0 +1,85 @@
+{% extends 'SGN/index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+
+    <div class="card-group" style="justify-content: center;align-items: center;">
+        <div class="card-perfil" 
+        style="
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff; 
+        width: 96%;
+        height: 80%;
+        border-radius: 3px;
+        color: var(--bs-dark);"
+        
+        >
+            <div class="personal-data" style="display: flex;flex-direction: column;margin: 10px 20px;gap: 10px;font-weight: 500;">
+                <span style="display: block;">Nome: {{professor.nome}} {{professor.sobrenome}}</span>
+                <span style="display: block;">Professor Nº: {{professor.id}}</span>
+                <span style="display: block;">Telefone: {{professor.telefone}}</span>
+                <span style="display: block;">Email: {{professor.email}}</span>
+                                
+            </div>
+            <div class="img-profile"
+            style="width: 130px;
+            height: 130px;
+            border: 1px solid #242424;
+            border-radius: 5%;
+            margin: 10px 20px;">
+
+                {% if estudante.img %}
+                    <img src="{{ professor.img.url }}" alt="professor.png" style="width: 130px;height: 130px;">
+                {% else %}
+                    <img src="#" alt="professor.png">
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+    <div class="table-area">
+        <div class="table-header">
+            <span> Disciplinas Lecionadas</span>             
+            <div>
+                <a href="{% url 'SGN:atribuir_disciplina' professor.id  %}" class="nav-link  btn btn-header"> Atribuir Disciplina</a>                  
+            </div>
+        </div>
+        <div id="table-div">
+            <table>
+                <thead>
+                    <tr> 
+                        <th>ID</th>                   
+                        <th>Nome</th>
+                        <th>Descrição</th>                                     
+                        <th>Semestre</th>                                     
+                        <th>Curso</th>                                     
+                        <th>Turma</th>                   
+                        <th>Carga Horária</th>                                     
+                        <th>Ações</th>                    
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for instance in disciplinas %}
+                    <tr>
+                        <td>{{ instance.disciplina.id }}</td>
+                        <td>{{ instance.disciplina.nome }}</td>
+                        <td>{{ instance.disciplina.descricao }}</td>                                                                                                                     
+                        <td>{{ instance.disciplina.semestre }}</td>                                                                                                                     
+                        <td>{{ instance.turma.curso }}</td>
+                        <td>{{ instance.turma }}</td>
+                        <td>{{ instance.disciplina.carga_horaria }}</td>                                                                                                                     
+                        <td>
+                            <div id="btn-actions">
+                                <a href="{% url 'SGN:editar_professor_disciplina' instance.id %}" id="btn-edit" class="btn"> Editar</a>
+                                <!-- <a href="" onclick="return confirm('Deseja excluir o Disciplina: {{ disciplina.nome }}?')" id="btn-del" class="btn"> Eliminar</a> -->
+                            </div>
+                        </td>                  
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock main %}

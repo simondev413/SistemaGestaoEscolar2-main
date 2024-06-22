@@ -1,0 +1,92 @@
+{% extends 'SGN/index.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="register-area">
+    <h5 style="margin: 0;" id="form-title" class="navbar-header">
+        <span>Registar Professor</span>
+    </h5>
+    <form action="{% url 'user_auth:registar_professor' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-area">
+            <div class="form-left">
+                <div id="personal-fields">
+                    <h6>Dados Pessoais</h6>
+                    <div id="name">
+                        {{ form.nome.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.nome }}
+                        {{ form.sobrenome.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.sobrenome }}
+                    </div>
+                    <div id="address-genre">
+                        {{ form.endereco.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.endereco }}
+                        {{ form.sexo.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.sexo }}
+                    </div>
+                </div>
+                <div id="contact-fields">
+                    <h6>Contatos</h6>
+                    <div id="email-field" style="width: 100%;">
+                        {{ form.email.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.email }}
+                    </div>
+                    <div id="tel">
+                        {{ form.telefone.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.telefone }}
+                        {{ form.telefone2.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.telefone2 }}
+                    </div>
+                </div>
+                <div id="academic-fields" style="width:351.86px;">
+                    <h6>Dados acadêmico</h6>
+                    <div id="academic">
+                        {{ form.curso.errors }} 
+                        {{ form.curso }}
+                        {{ form.turno.errors }}  
+                        {{ form.turno }}
+                        {{ form.ano_academico.errors }}  
+                        {{ form.ano_academico }}
+                        {{ form.disciplina.errors }}  
+                        {{ form.disciplina }}
+                        {{ form.semestre.errors }}
+                        {{ form.semestre }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-right">
+                <div id="perfile-fields">
+                    <h6>Dados de conta</h6>
+                    <div id="image-field">
+                        {{ form.img.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.img }}
+                    </div>
+                    <div id="password-fields">
+                        {{ form.password1.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.password1 }}
+                        {{ form.password2.errors }}  <!-- Adicionar erros aqui -->
+                        {{ form.password2 }}
+                    </div>
+                </div>
+                <button type="submit" id="register-btn" class="btn">Cadastrar Professor</button>
+            </div>
+        </div>
+    </form>
+    {% if form.errors %}
+        <div class="form-errors">
+            <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                        <li>{{ field.label }}: {{ field.errors }}</li>
+                    {% endif %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+{% endblock main %}

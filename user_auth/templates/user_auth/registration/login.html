@@ -1,0 +1,56 @@
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static '/SistemaGestaoEscolar/css/login.css'%}">
+  
+</head>
+<body>
+
+{% block content %}
+
+  <div class="main-container" >
+    <div class="left-box">
+      <div class="h-text-left-box">
+        <h3>SISTEMA</h3> 
+        <h3>DE GESTÃO ESCOLAR</h3>
+      </div>
+      <p id="p-left-box">Explore nossa plataforma e descubra como podemos ajudar a sua escola a alcançar novos patamares de excelência.</p>
+    </div>
+    <div class="right-box">
+        <h3>Faça o login para ter acesso ao SGE</h3>
+        <div class="form-area"> 
+          {% if error %}
+          <div class="error">
+            <p>{{ error }}</p>
+          </div>
+          {% endif %}
+          <form action="" method="post">
+
+            {% csrf_token %}   
+            <input type="hidden" name="next" value="{{ next }}">
+
+            <input type="email" name="email"  placeholder="E-mail" id="email" autofocus required>  
+            <input type="password" placeholder="Password" name="password" id="" required> 
+            <input type="submit" value="Entrar">
+            <a href="/" id="login-cancel"> Voltar </a>
+            <a href="#" id="senha-reset"> Esqueceu a Senha ?</a>
+
+          </form>
+
+        </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+</body>
+</html>
+
+

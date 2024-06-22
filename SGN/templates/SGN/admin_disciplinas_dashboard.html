@@ -1,0 +1,59 @@
+{% extends 'SGN/index.html'  %}
+
+{% block  main %}
+
+<div class="card-group" >
+    <div class="card-item card-dark card-one">
+        <span><strong>Total de Disciplinas Registradas</strong></span>
+        <p id="card-item-counter">{{ disciplinas.count }}</p>
+    </div>
+</div>
+
+<div class="table-area" >
+    <div class="table-header">
+        <span> Disciplinas </span>
+        <div class="search">
+            <form action="?" method="get">               
+                <input type="text" name="nome_disciplina" id="filtro" value="{{ request.GET.nome_disciplina }}"  placeholder="Buscar disciplina">
+                <button type="submit" class="btn" id="btn-search"> Buscar</button>
+                <a href="{% url 'SGN:admin_disciplinas_dashboard' %}" class="btn" id="btn-back">Voltar</a>
+            </form>
+        </div>  
+        <div>
+            <a href="{% url 'SGN:registrar_disciplina' %}" class="nav-link  btn btn-header"> Registar Disciplina</a>                  
+        </div>
+    </div>
+    <div id="table-div">
+        <table>
+            <thead>
+                <tr> 
+                    <th>ID</th>                   
+                    <th>Nome</th>
+                    <th>Descrição</th>                                     
+                    <th>Semestre</th>                                     
+                    <th>Carga Horária</th>                                     
+                    <th>Ações</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for disciplina in disciplinas %}
+                <tr>
+                    <td>{{ disciplina.id }}</td>
+                    <td>{{ disciplina.nome }}</td>
+                    <td>{{ disciplina.descricao }}</td>                                                                                                                     
+                    <td>{{ disciplina.semestre }}</td>                                                                                                                     
+                    <td>{{ disciplina.carga_horaria }}</td>                                                                                                                     
+                    <td>
+                        <div id="btn-actions">
+                            <a href="{% url 'SGN:editar_disciplina' disciplina.id %}" id="btn-edit" class="btn"> Editar</a>
+                            <a href="{% url 'SGN:deletar_disciplina' disciplina.id %}" onclick="return confirm('Deseja excluir o Disciplina: {{ disciplina.nome }}?')" id="btn-del" class="btn"> Eliminar</a>
+                        </div>
+                    </td>                  
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock main %}

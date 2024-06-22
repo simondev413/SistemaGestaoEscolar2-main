@@ -1,0 +1,185 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão Escolar</title>
+
+    {% block links %}
+        <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/bootstrap.css'%}">
+        <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'SistemaGestaoEscolar/css/sgn_index_style.css'%}">
+    {% endblock links %}
+
+    {% block style %}
+        <style>
+            
+        </style>
+    {% endblock style %}
+
+</head>
+<body>
+    
+    {%  block content %}
+
+    <div class="container-fluid" >
+        {% block sidebar %}        
+        <div class="sidebar bg-dark" >
+            <div id="dashboard-brand">
+                <h5>Admin Dashboard</h5>
+            </div>
+            <div class="admim-components">
+                <ul>
+                    <li>
+                        <a href="{% url 'SGN:admin_estudantes_dashboard'  %}" class="nav-link">Estudantes</a>
+                    </li>                                        
+                    <li>
+                        <a href="{% url 'SGN:admin_professores_dashboard' %}" class="nav-link">Professores</a>
+                    </li>                                        
+                    <li>
+                        <a href="{% url 'SGN:admin_cursos_dashboard' %}" class="nav-link">Cursos</a>
+                    </li>                                        
+                    <li>
+                        <a href="{% url 'SGN:admin_disciplinas_dashboard' %}" class="nav-link">Disciplinas</a>
+                    </li>                                        
+                    <li>
+                        <a href="{% url 'SGN:admin_turmas_dashboard' %}" class="nav-link">Turmas</a>
+                    </li>                                                                                           
+                    <li>
+                        <a href="{% url 'SGN:vagas' %}" class="nav-link">Controle de Vagas</a>
+                    </li>                                                                                           
+                </ul>
+
+                
+            </div>
+        </div>
+        {% endblock sidebar %}
+        <div class="main">  
+            {% block navbar %}      
+            <div class="navbar-header">
+                {% if request.user.type == 'admin' %}
+                <a href="{% url 'SGN:admin_dashboard' %}" id="brand">Sistema de Gestão Escolar</a>
+                {% else %}
+                <a href="{% url 'index' %}" id="brand">Sistema de Gestão Escolar</a>
+                {% endif %}
+                
+                <div style="display: flex;flex-direction: row; width: 30%;justify-content: center;align-items: center;">
+                    <span id="user"> {{ request.user }}</span>
+                    <a href="{% url 'user_auth:logout' %}" id="logout" class="nav-link">Terminar sessão</a>
+                </div>
+            </div>
+            {% endblock navbar %}
+        {% block main %}
+            <div class="card-group">
+                <div class="card-item">
+                    <span><strong>Total Estudantes</strong></span>
+                    <p id="card-item-counter">{{ estudantes.count }}</p>
+                </div>            
+                <div class="card-item">
+                    <strong>Total Professores</strong>
+                    <p id="card-item-counter">{{ professores.count }}</p>
+                </div>            
+                <div class="card-item">
+                    <strong>Total Curos</strong>
+                    <p id="card-item-counter">{{ cursos.count }}</p>
+                </div>            
+                <div class="card-item">
+                    <strong>Total Fichas</strong>
+                    <p id="card-item-counter">{{ fichas.count }}</p>
+                </div>            
+                <div class="card-item">
+                    <strong>Total Disciplinas</strong>
+                    <p id="card-item-counter">{{ disciplinas.count }}</p>
+                </div>            
+                <div class="card-item">
+                    <strong>Total Turmas</strong>
+                    <p id="card-item-counter">{{ turmas.count }}</p>
+                </div>            
+            </div>
+            <div class="table-area">                
+                <div class="table-header">
+                    <span> Actividades</span>   
+                    <div class="search">
+                        <form action="?" method="get">               
+                            <input type="text" name="log_data" id="filtro" value="{{ request.GET.log_data }}"  placeholder="Buscar log por data">
+                            <button type="submit" class="btn" id="btn-search"> Buscar</button>
+                            <a href="{% url 'SGN:admin_dashboard' %}" class="btn" id="btn-back">Voltar</a>
+                        </form>
+                    </div>
+                </div>
+                <div id="table-div">    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Hora</th> 
+                                <th>Data</th>                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in logs %}
+                                <tr>
+                                    <td>
+                                        {{ log.texto }}
+                                    </td>
+                                    <td>
+                                        {{ log.hora }}
+                                    </td>
+                                    <td>
+                                        {{ log.data }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>            
+        </div>
+        {% endblock main %}
+    </div>
+
+    {%  endblock content %}
+
+    {% block scripts %}
+
+        <script>
+            var fichaValues = document.getElementsByClassName("ficha-values");
+            var fichaMedia = fichaValues[6];
+            var fichaStatus =  document.getElementsByClassName("ficha-status");
+
+            for(let i=0;i<fichaValues.length;i++){
+                var value = parseFloat(fichaValues[i].innerHTML)
+                if( value < 10) {                    
+                    fichaValues[i].style.color = "var(--bs-danger)";
+
+                } else {
+                    if (value >= 13.5 ) {
+                        fichaValues[i].style.color = "var(--bs-success)";
+                    };
+                };
+                
+                
+            };
+            for( let i = 0;i < fichaStatus.length; i++){
+                if (fichaStatus[i].innerText == "Dispensa"){
+                    fichaStatus[i].style.color = 'var(--bs-primary)';
+                
+                };
+                if (fichaStatus[i].innerText == "Reprovado") {
+                    fichaStatus.style.color = "var(--bs-danger)"
+                    
+                };
+            }
+                
+            
+        </script>
+        <script src="{% static 'SistemaGestaoEscolar/js/bootstrap.bundle.js' %}"></script>
+        <script src="{% static 'SistemaGestaoEscolar/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'SistemaGestaoEscolar/js/bootstrap.js' %}"></script>
+    {% endblock scripts %}
+</body>
+</html>

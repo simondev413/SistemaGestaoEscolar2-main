@@ -1,0 +1,55 @@
+{% extends 'SGN/index.html'  %}
+
+{% block  main %}
+
+<div class="card-group" >
+    <div class="card-item card-dark card-one">
+        <span><strong>Total de Cursos Registrados</strong></span>
+        <p id="card-item-counter">{{ cursos.count }}</p>
+    </div> 
+</div>
+
+<div class="table-area" >
+    <div class="table-header">
+        <span> Cursos </span>
+        <div class="search">
+            <form action="?" method="get">               
+                <input type="text" name="nome_curso" id="filtro" value="{{ request.GET.nome_curso }}"  placeholder="Buscar Curso">
+                <button type="submit" class="btn" id="btn-search"> Buscar</button>
+                <a href="{% url 'SGN:admin_cursos_dashboard' %}" class="btn" id="btn-back">Voltar</a>
+            </form>
+        </div>  
+        <div>
+            <a href="{% url 'SGN:registrar_curso' %}" class="nav-link  btn btn-header"> Registrar Curso</a>                  
+        </div>
+    </div>
+    <div id="table-div">
+        <table>
+            <thead>
+                <tr> 
+                    <th>ID</th>                   
+                    <th>Nome</th>                                
+                    <th>Descrição</th> 
+                    <th>Ações</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for curso in cursos %}
+                <tr>
+                    <td>{{ curso.id }}</td>
+                    <td>{{ curso.nome }}</td>
+                    <td>{{ curso.descricao }}</td>                      
+                    <td>
+                        <div id="btn-actions">
+                            <a href="{% url 'SGN:editar_curso' curso.id %}" id="btn-edit" class="btn"> Editar</a>
+                            <a href="{% url 'SGN:deletar_curso' curso.id %}" onclick="return confirm('Deseja excluir o Curso: {{ curso.nome }}?')" id="btn-del" class="btn"> Eliminar</a>
+                        </div>
+                    </td>                  
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock main %}
